@@ -1,0 +1,34 @@
+name: 🐞 Bug report
+description: Báo cáo lỗi để giúp chúng tôi cải thiện
+title: "[BUG] <mô tả ngắn>"
+labels: [bug]
+assignees: []
+body:
+  - type: textarea
+    id: description
+    attributes:
+      label: Mô tả lỗi
+      description: Mô tả chi tiết về lỗi gặp phải
+      placeholder: Khi tôi làm X thì Y xảy ra...
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Các bước tái hiện
+      description: Làm sao để tái hiện lỗi này?
+      placeholder: |
+        1. ...
+        2. ...
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Kết quả mong đợi
+      description: Bạn kỳ vọng điều gì sẽ xảy ra?
+      placeholder: Hệ thống sẽ ...
+    validations:
+      required: true

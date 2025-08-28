@@ -1,0 +1,21 @@
+name: 🛠️ Tech Debt
+description: Theo dõi nợ kỹ thuật trong codebase
+title: "[Tech Debt] <khu vực ảnh hưởng>"
+labels: [tech-debt]
+assignees: []
+body:
+  - type: textarea
+    id: context
+    attributes:
+      label: Ngữ cảnh
+      description: Phần code nào đang gây khó khăn?
+      placeholder: File/module/class nào...
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Đề xuất cải tiến
+      description: Làm sao để giảm bớt nợ kỹ thuật?
+      placeholder: Refactor, thêm test, đổi lib...

@@ -1,0 +1,23 @@
+name: ✨ Feature request
+description: Gợi ý tính năng mới hoặc cải tiến
+title: "[Feature] <tên tính năng>"
+labels: [enhancement]
+assignees: []
+body:
+  - type: textarea
+    id: motivation
+    attributes:
+      label: Động lực
+      description: Tại sao tính năng này quan trọng?
+      placeholder: Người dùng đang gặp khó khăn gì?
+    validations:
+      required: true
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: Giải pháp gợi ý
+      description: Bạn mong muốn giải pháp hoạt động thế nào?
+      placeholder: Hệ thống sẽ thêm ...
+    validations:
+      required: true
