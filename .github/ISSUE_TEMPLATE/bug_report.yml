@@ -1,34 +1,59 @@
-name: 🐞 Bug report
-description: Báo cáo lỗi để giúp chúng tôi cải thiện
-title: "[BUG] <mô tả ngắn>"
+name: Bug Report
+description: File a bug report to help us improve
 labels: [bug]
+title: "[Bug] <short description>"
 assignees: []
 body:
-  - type: textarea
-    id: description
+  - type: markdown
     attributes:
-      label: Mô tả lỗi
-      description: Mô tả chi tiết về lỗi gặp phải
-      placeholder: Khi tôi làm X thì Y xảy ra...
+      value: |
+        ## Bug Report
+        Please fill out the following information to help us reproduce and fix the issue.
+  - type: input
+    id: summary
+    attributes:
+      label: Summary
+      description: A concise description of the bug.
+      placeholder: e.g. The game crashes when collecting a coin.
     validations:
       required: true
-
   - type: textarea
     id: steps
     attributes:
-      label: Các bước tái hiện
-      description: Làm sao để tái hiện lỗi này?
-      placeholder: |
-        1. ...
-        2. ...
+      label: Steps to Reproduce
+      description: Step-by-step instructions to reproduce the bug.
+      placeholder: 1. Start the game\n2. Collect a coin\n3. Observe crash
     validations:
       required: true
-
   - type: textarea
     id: expected
     attributes:
-      label: Kết quả mong đợi
-      description: Bạn kỳ vọng điều gì sẽ xảy ra?
-      placeholder: Hệ thống sẽ ...
+      label: Expected Behavior
+      description: What did you expect to happen?
+      placeholder: The game should continue after collecting a coin.
     validations:
       required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual Behavior
+      description: What actually happened?
+      placeholder: The game crashes and closes.
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Environment
+      description: OS, game version, hardware, etc.
+      placeholder: Windows 10, v1.2.3, Intel i5
+    validations:
+      required: false
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant Log Output or Screenshots
+      description: Paste any relevant logs or screenshots here.
+      placeholder: Paste logs or drag screenshots
+    validations:
+      required: false
