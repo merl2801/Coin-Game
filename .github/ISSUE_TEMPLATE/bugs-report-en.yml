@@ -1,59 +1,189 @@
-name: Bug Report
-description: File a bug report to help us improve
-labels: [bug]
-title: "[Bug] <short description>"
-assignees: []
+name: Bug Report (Detailed)
+description: File a bug report
+title: "[Bug]: "
+labels: ["bug", "triage"]
+assignees:
+  - octocat
 body:
   - type: markdown
     attributes:
       value: |
-        ## Bug Report
-        Please fill out the following information to help us reproduce and fix the issue.
+        Thanks for taking the time to fill out this bug report!
+
   - type: input
-    id: summary
+    id: title
     attributes:
-      label: Summary
-      description: A concise description of the bug.
-      placeholder: e.g. The game crashes when collecting a coin.
+      label: Title
+      description: Brief description of the bug
+      placeholder: Enter bug title here
     validations:
       required: true
+
   - type: textarea
-    id: steps
+    id: bug-description
     attributes:
-      label: Steps to Reproduce
-      description: Step-by-step instructions to reproduce the bug.
-      placeholder: 1. Start the game\n2. Collect a coin\n3. Observe crash
+      label: Bug Description
+      description: Describe the bug in detail
+      placeholder: |
+        ■ Issue/Problem
+        Describe from user's perspective
+
+        ■ Requirements (Expected Behavior)
+        ※ Describe how it should be fixed and expected behavior after bug fix
+
+        ■ Requirements Details
+        ※ Describe reproducible data and operations in detail
     validations:
       required: true
-  - type: textarea
-    id: expected
+
+  - type: dropdown
+    id: tracker
     attributes:
-      label: Expected Behavior
-      description: What did you expect to happen?
-      placeholder: The game should continue after collecting a coin.
+      label: Tracker
+      description: What type of issue is this?
+      options:
+        - Epic
+        - Bug
+        - Sprint Bug
+        - Release Sprint Task
+        - Review
+        - Feature
+        - Issue
+        - Story
+        - Task
+        - Project Issue
+        - Event
+        - Beta Bug
+        - Design Checklist
+        - "Development Checklist (Server)"
+        - "Development Checklist (Agent)"
+        - Function Test Checklist
+        - Investigation Checklist
+        - Work Hour Measurement
+        - Planning Request
+        - Review Checklist
+      default: 1   # "Bug" (0-based index)
     validations:
       required: true
-  - type: textarea
-    id: actual
+
+  - type: dropdown
+    id: status
     attributes:
-      label: Actual Behavior
-      description: What actually happened?
-      placeholder: The game crashes and closes.
+      label: Status
+      description: Current status
+      options:
+        - TODO
+      default: 0   # "TODO"
     validations:
       required: true
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priority
+      description: Priority level
+      options:
+        - Low
+        - Normal
+        - High
+        - Urgent
+        - Immediate
+        - MUST
+      default: 1   # "Normal"
+    validations:
+      required: true
+
   - type: input
-    id: environment
+    id: assignee
     attributes:
-      label: Environment
-      description: OS, game version, hardware, etc.
-      placeholder: Windows 10, v1.2.3, Intel i5
-    validations:
-      required: false
+      label: Assignee
+      description: Person assigned to this issue
+      placeholder: Enter assignee username
+
+  - type: input
+    id: target-version
+    attributes:
+      label: Target Version
+      description: Target version for this issue
+      placeholder: Enter target version
+
+  - type: input
+    id: start-date
+    attributes:
+      label: Start Date
+      description: Start date (YYYY-MM-DD)
+      placeholder: "2025-08-29"
+
+  - type: input
+    id: due-date
+    attributes:
+      label: Due Date
+      description: Due date (YYYY-MM-DD)
+      placeholder: "2025-09-30"
+
+  - type: input
+    id: estimated-hours
+    attributes:
+      label: Estimated Hours
+      description: Estimated work hours
+      placeholder: Enter hours
+
+  - type: dropdown
+    id: progress
+    attributes:
+      label: Progress
+      description: Progress percentage
+      options:
+        - "0%"
+        - "10%"
+        - "20%"
+        - "30%"
+        - "40%"
+        - "50%"
+        - "60%"
+        - "70%"
+        - "80%"
+        - "90%"
+        - "100%"
+      default: 0   # "0%"
+
+  - type: checkboxes
+    id: cause-function
+    attributes:
+      label: Root Cause Function
+      description: Select applicable functions
+      options:
+        - label: Dashboard
+        - label: Task.Shared Task
+        - label: Task.Personal Task
+        - label: "Task.Today's Email"
+        - label: Work Hours.Work Schedule Application
+        - label: Work Hours.Work Hours Display
+        - label: Vacation Planning
+        - label: Work Style Analysis
+        - label: Settings.Personal Settings
+        - label: Settings.Project
+        - label: Settings.System Settings
+        - label: Settings.Organization Settings
+        - label: Settings.Other
+        - label: Agent
+        - label: PC Lock
+        - label: Email.Alert Email
+        - label: "Other System Integration.Attendance Integration"
+        - label: Other
+
   - type: textarea
-    id: logs
+    id: attachments
     attributes:
-      label: Relevant Log Output or Screenshots
-      description: Paste any relevant logs or screenshots here.
-      placeholder: Paste logs or drag screenshots
-    validations:
-      required: false
+      label: Files/Attachments
+      description: Add any files, screenshots, or additional information
+      placeholder: Drag and drop files here or describe attachments
+
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Code of Conduct
+      description: By submitting this issue, you agree to follow our Code of Conduct
+      options:
+        - label: I agree to follow this project's Code of Conduct
+          required: true
