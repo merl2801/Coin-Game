@@ -1,5 +1,4 @@
-#github_issue_template.yml
-# Please fill out all fields and options as specified in the YAML below.
+---
 name: "Custom Issue Template"
 description: "Describe your issue using the fields below."
 title: "[ISSUE] - <short description>"
