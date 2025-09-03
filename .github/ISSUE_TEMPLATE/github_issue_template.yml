@@ -1,55 +1,230 @@
----
-name: "Custom Issue Template"
-description: "Describe your issue using the fields below."
-title: "[ISSUE] - <short description>"
-labels:
-  - bug
-  - enhancement
-assignees:
-  - merl2801
+name: "働き方改革支援ソリューション 製品開発チケット"
+description: "働き方見える化サービスPlus の新規チケット作成用テンプレート"
+title: "[機能名] 題名を入力してください"
+labels: ["enhancement", "development"]
+assignees: []
 body:
-  - type: markdown
-    attributes:
-      value: |
-        ## Issue Description
-        Please provide a clear and concise description of the issue.
   - type: input
-    id: environment
+    id: subject
     attributes:
-      label: "Environment"
-      description: "Describe the environment (OS, version, etc.) where the issue occurs."
-      placeholder: "e.g., Windows 10, Python 3.8"
+      label: "題名 *"
+      description: "チケットの題名を入力してください"
+      placeholder: "例：新機能の実装"
     validations:
       required: true
-  - type: textarea
-    id: steps-to-reproduce
+
+  - type: dropdown
+    id: status
     attributes:
-      label: "Steps to Reproduce"
-      description: "List the steps to reproduce the issue."
-      placeholder: "1. Go to ...\n2. Click on ...\n3. See error"
+      label: "ステータス *"
+      description: "チケットのステータスを選択してください"
+      options:
+        - TODO
+        - DOING
+        - DONE
+      default: 0
     validations:
       required: true
-  - type: textarea
-    id: expected-behavior
+
+  - type: dropdown
+    id: priority
     attributes:
-      label: "Expected Behavior"
-      description: "Describe what you expected to happen."
-      placeholder: "It should ..."
+      label: "優先度 *"
+      description: "チケットの優先度を選択してください"
+      options:
+        - 低め
+        - 通常
+        - 高め
+        - 急いで
+        - 今すぐ
+        - MUST
+      default: 1
     validations:
       required: true
-  - type: textarea
-    id: actual-behavior
+
+  - type: input
+    id: parent_issue
     attributes:
-      label: "Actual Behavior"
-      description: "Describe what actually happened."
-      placeholder: "It actually ..."
-    validations:
-      required: true
-  - type: textarea
-    id: additional-context
+      label: "親チケット"
+      description: "親チケットのIDがある場合は入力してください"
+      placeholder: "例：#123"
+
+  - type: checkboxes
+    id: design_checklist_1
     attributes:
-      label: "Additional Context"
-      description: "Add any other context or screenshots about the issue here."
-      placeholder: "Any other details..."
-    validations:
-      required: false
+      label: "[1] 設計チェック項目"
+      description: "特殊データの扱いが考慮されているか"
+      options:
+        - label: "特殊データの扱いが考慮されているか（例：uid = 'admin' や gid = '0' など）"
+          required: false
+
+  - type: checkboxes
+    id: design_checklist_2
+    attributes:
+      label: "[2] 設計チェック項目"
+      description: "データのソート順が妥当か"
+      options:
+        - label: "データのソート順が妥当か（指定されているか）？ID順、日付順など。第二ソートキーの考慮も含む。出たとこ勝負で良いものは「順不同」と明記する"
+          required: false
+
+  - type: checkboxes
+    id: design_checklist_3
+    attributes:
+      label: "[3] 設計チェック項目"
+      description: "処理データ量の試算"
+      options:
+        - label: "ユーザ数、データ数で想定処理データ量を試算できているか"
+          required: false
+
+  - type: checkboxes
+    id: design_checklist_4
+    attributes:
+      label: "[4] 設計チェック項目"
+      description: "権限チェック"
+      options:
+        - label: "画面の参照権限とAPIで取得可能なデータの整合性がとれているか"
+          required: false
+
+  - type: checkboxes
+    id: design_checklist_25
+    attributes:
+      label: "[25] 設計チェック項目"
+      description: "組織・個人別設定の参照"
+      options:
+        - label: "参照するデータがログイン者と異なるユーザーの場合、組織・個人別設定としてログイン者の設定を参照するか参照するデータのユーザーの設定を参照するかが適切なことを確認する"
+          required: false
+
+  - type: checkboxes
+    id: design_checklist_27
+    attributes:
+      label: "[27] 設計チェック項目"
+      description: "データ削除の設計書反映"
+      options:
+        - label: "ユーザーの削除時にデータが削除されるように共通関数function getUserRelationTable()に対象のテーブルを追加していること"
+          required: false
+
+  - type: checkboxes
+    id: design_checklist_29
+    attributes:
+      label: "[29] 設計チェック項目"
+      description: "ファイルリスト設定"
+      options:
+        - label: "ファイルが新規追加となるもので実行時に必要となるファイル（アイコンなどの画像ファイル等含む）が、漏れなくrpm/file_list.txtに追加されていること"
+          required: false
+
+  - type: checkboxes
+    id: design_checklist_30
+    attributes:
+      label: "[30] 設計チェック項目"
+      description: "テーブル削除対象の確認"
+      options:
+        - label: "t_userまたはt_groupが削除された時に、追加したテーブルまたは関連するテーブルが削除対象テーブルに含まれているか"
+          required: false
+
+  - type: checkboxes
+    id: design_checklist_31
+    attributes:
+      label: "[31] 設計チェック項目"
+      description: "RPM作成時の不要データ除外"
+      options:
+        - label: "新規テーブルを追加する場合、RPM作成時に不要データが含まれないようにするため、sql/delete_param.sqlまたはsql/truncate_data.sqlに追加したテーブルが記載することが考慮されているか"
+          required: false
+
+  - type: checkboxes
+    id: design_checklist_32
+    attributes:
+      label: "[32] 設計チェック項目"
+      description: "アクセスログ出力"
+      options:
+        - label: "新規に用意するコンポーネントにアクセスログの出力が考慮されているか"
+          required: false
+
+  - type: checkboxes
+    id: design_checklist_33
+    attributes:
+      label: "[33] 設計チェック項目"
+      description: "Mac版エージェントの考慮"
+      options:
+        - label: "エージェントの改修の場合、mac版エージェントの改修も考慮されているか"
+          required: false
+
+  - type: checkboxes
+    id: design_checklist_36
+    attributes:
+      label: "[36] 設計チェック項目"
+      description: "休日・休出の考慮"
+      options:
+        - label: "休日・休出(勤務予定申請あり)の考慮はされているか（PCロック、メッセージ通知、メール送信等）"
+          required: false
+
+  - type: checkboxes
+    id: design_checklist_37
+    attributes:
+      label: "[37] 設計チェック項目"
+      description: "インデックス追加の考慮"
+      options:
+        - label: "テーブルを新規追加または項目を追加する際に、対象の項目にインデックスを追加するかどうかについて考慮できているか"
+          required: false
+
+  - type: checkboxes
+    id: design_checklist_42
+    attributes:
+      label: "[42] 設計チェック項目"
+      description: "類似機能の確認"
+      options:
+        - label: "今まで同様の開発を行ってきた、同様の構成の機能があるか確認し、ない場合有識者にレビューを受け、新たに考慮する部分がないか確認を行った"
+          required: false
+
+  - type: checkboxes
+    id: design_checklist_43
+    attributes:
+      label: "[43] 設計チェック項目"
+      description: "外部公開文言の確認"
+      options:
+        - label: "テーブル名・カラム名・専門用語など、外部に公開してはいけない、もしくは利用者が理解できない文言を使っていないか確認を行う"
+          required: false
+
+  - type: checkboxes
+    id: design_checklist_44
+    attributes:
+      label: "[44] 設計チェック項目（v8.0～）"
+      description: "マスタ定義追加時のライセンス考慮"
+      options:
+        - label: "t_config_masterまたはt_config_systemにマスタ定義を追加する場合は、項目を表示するライセンスを考慮する。表示する場合は、「t_authorized_config_key_list」に追加する差分SQLを発行する"
+          required: false
+
+  - type: checkboxes
+    id: design_checklist_45
+    attributes:
+      label: "[45] 設計チェック項目（v8.0～）"
+      description: "権限タブ追加時のライセンス考慮"
+      options:
+        - label: "システム管理者メニューの「権限」にタブを追加する場合は、タブを表示するライセンスを考慮する。表示する場合は、「t_authorized_group_list」に追加する差分SQLを発行する"
+          required: false
+
+  - type: checkboxes
+    id: design_checklist_49
+    attributes:
+      label: "[49] 設計チェック項目"
+      description: "テーブル設計注意事項"
+      options:
+        - label: "テーブル設計時にカラムのサイズなど注意事項を確認する"
+          required: false
+
+  - type: checkboxes
+    id: design_checklist_50
+    attributes:
+      label: "[50] 設計・製造・機能テストチェック項目"
+      description: "エージェント複数共存環境の動作確認"
+      options:
+        - label: "エージェントが複数共存する環境での動作に問題がないことを確認する。通常版のSimple版、Service版とWDS版は同一端末の同一アカウントで使用する可能性があるため、同時実行されて問題が生じないこと"
+          required: false
+
+  - type: checkboxes
+    id: design_checklist_51
+    attributes:
+      label: "[51] 設計チェック項目"
+      description: "API ホワイトリスト追加"
+      options:
+        - label: "エージェントから呼び出されるAPIに制限をかけているため、APIを追加する際は、サーバー側のホワイトリスト（index.phpの$VALID_AGENT_APIS）に追加していることを確認する"
+          required: false
