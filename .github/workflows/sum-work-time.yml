@@ -1,0 +1,46 @@
+name: Sum Work Time
+
+on:
+  workflow_dispatch:
+  issues:
+    types: [opened, edited, labeled]
+
+jobs:
+  sum-work-time:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Extract issue parent ID from body
+        id: extract
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const body = context.payload.issue.body || "";
+            const match = body.match(/Issue.*?:\s*(\d+)/);
+            return { parentId: match ? match[1] : null };
+
+      - name: Sum all time logs for parent issue
+        if: steps.extract.outputs.parentId != ''
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const parentId = parseInt(steps.extract.outputs.parentId);
+            const { data: issues } = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              labels: "log,work-time",
+              state: "all",
+              per_page: 100
+            });
+            let total = 0.0;
+            for (const issue of issues) {
+              if (issue.body.includes(`Issue`)) {
+                const m = issue.body.match(/time_spent.*?:\s*([0-9.]+)/);
+                if (m) total += parseFloat(m[1]);
+              }
+            }
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: parentId,
+              body: `⏱️ Tổng thời gian đã log: **${total} giờ**`
+            });
