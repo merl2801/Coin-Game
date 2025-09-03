@@ -1,26 +1,32 @@
----
-name: Custom Issue
-about: Create a custom issue using the sample template
-labels: bug, enhancement
-assignees: ''
----
+name: Bug Report Custom
+description: Bug Report With Custom Field
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: input
+    id: contact
+    attributes:
+      label: Contact Info
+      description: How can we reach you?
+      placeholder: email@example.com
+    validations:
+      required: false
 
-## Description
+  - type: dropdown
+    id: severity
+    attributes:
+      label: Severity
+      options:
+        - Low
+        - Medium
+        - High
+    validations:
+      required: true
 
-<!-- Please describe the issue or feature request in detail. -->
-
-## Steps to Reproduce / Implement
-
-<!-- List the steps to reproduce the bug or implement the feature. -->
-
-## Expected Behavior
-
-<!-- What did you expect to happen? -->
-
-## Actual Behavior
-
-<!-- What actually happened? -->
-
-## Additional Context
-
-<!-- Add any other context or screenshots about the issue here. -->
+  - type: textarea
+    id: description
+    attributes:
+      label: Bug Description
+      description: Describe the bug details
+      placeholder: Describe the bug detail...
+      value: "value 1"
