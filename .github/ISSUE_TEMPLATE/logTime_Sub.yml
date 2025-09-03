@@ -1,0 +1,113 @@
+name: "作業時間記録 (Time Logging)"
+description: "作業時間の記録とサブ課題の作成用テンプレート"
+title: "[作業時間] 題名を入力してください"
+labels: ["log", "work-time"]
+assignees: []
+body:
+  - type: input
+    id: issue_id
+    attributes:
+      label: "Issue (親/関連)"
+      description: "関連するIssue番号を入力してください（任意）"
+      placeholder: "例：1234"
+    validations:
+      required: false
+
+  - type: input
+    id: date
+    attributes:
+      label: "作業日 *"
+      description: "作業した日付を入力してください (YYYY-MM-DD)"
+      placeholder: "例：2025-09-03"
+    validations:
+      required: true
+
+  - type: input
+    id: time_spent
+    attributes:
+      label: "作業時間 (h) *"
+      description: "作業にかかった時間を入力してください (例：1.5)"
+      placeholder: "例：2.0"
+    validations:
+      required: true
+
+  - type: textarea
+    id: comments
+    attributes:
+      label: "Comment"
+      description: "備考や補足事項があれば記入してください"
+      placeholder: "例：詳細な作業内容"
+    validations:
+      required: false
+
+  - type: textarea
+    id: sub_issues
+    attributes:
+      label: "Sub-Issues (サブ課題)"
+      description: "この課題に関連するサブ課題を作成します。各行に１つの課題名を入力してください。空欄なら作成しません。"
+      placeholder: |
+        設計仕様書作成
+        APIエンドポイント開発
+        単体テスト作成
+    validations:
+      required: false
+
+  - type: dropdown
+    id: activity
+    attributes:
+      label: "Activity *"
+      description: "作業の種別を選択してください"
+      options:
+        - "【設計・製造】調査作業"
+        - "【設計・製造】要件資料作成作業"
+        - "【設計・製造】設計作業"
+        - "【設計・製造】開発作業"
+        - "【設計・製造】打ち合わせ"
+        - "【テスト】機能テスト作業"
+        - "【テスト】総合テスト作業"
+        - "【テスト】打ち合わせ"
+        - "【レビュー】調査レビュー"
+        - "【レビュー】設計レビュー"
+        - "【レビュー】ソースレビュー"
+        - "【レビュー】テスト仕様書レビュー"
+        - "【レビュー】テスト結果確認"
+        - "【管理】環境整備"
+        - "【管理】Redmine管理作業"
+        - "【管理】朝会"
+        - "【管理】振り返り"
+        - "【管理】スプリント計画"
+        - "【管理】スプリントレビュー"
+        - "【管理】審査ドキュメント"
+        - "【管理】打ち合わせ"
+        - "【管理】入職者対応"
+        - "【管理】申請作業"
+        - "【管理】受発注作業"
+        - "【その他】見積もり"
+        - "【その他】勉強会"
+        - "【その他】SP見積もり"
+        - "【その他】改善活動"
+        - "【その他】マスタ資料更新"
+        - "【その他】問い合わせ対応"
+        - "【その他】打ち合わせ"
+        - "【その他】ドキュメント作業"
+        - "環境構築・停止・削除・確認・変更・手順整備"
+        - "バージョンアップ"
+        - "バージョンアップ以外のサービス対応"
+        - "運用改善"
+        - "セキュリティ定例・その他チーム内セキュリティ対応"
+        - "申込書・顧客管理"
+        - "GW・年末休暇・通知"
+        - "打ち合わせ・朝会・勉強"
+        - "接続IP設定"
+        - "ライセンス送付関連"
+        - "その他"
+        - "[予約]残り時間反映"
+        - "[完了]残り時間反映"
+        - "運用管理"
+        - "【WF】設計開発"
+        - "【WF】レビュー"
+        - "【WF】その他"
+        - "【WF】管理"
+      default: 0
+    validations:
+      required: true

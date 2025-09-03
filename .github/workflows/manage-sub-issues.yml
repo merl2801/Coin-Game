@@ -1,0 +1,86 @@
+name: Manage Sub-Issues & Time Tracking
+
+on:
+  issues:
+    types: [opened, edited]
+
+jobs:
+  manage_sub_issues:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+    steps:
+      - name: Extract issue body
+        id: extract
+        run: |
+          echo "BODY<<EOF" >> $GITHUB_ENV
+          echo "${{ github.event.issue.body }}" >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
+
+      - name: Create sub-issues (if any)
+        if: contains(env.BODY, 'Sub-Issues:')
+        run: |
+          SUB_LIST=$(echo "$BODY" | awk '/Sub-Issues:/,/^$/' | tail -n +2)
+          COMMENTS="### Created Sub-Issues:\n"
+          for TITLE in $SUB_LIST; do
+            [ -z "$TITLE" ] && continue
+            echo "Creating issue: $TITLE"
+            RESPONSE=$(curl -s -X POST \
+              -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+              -H "Accept: application/vnd.github+json" \
+              https://api.github.com/repos/${{ github.repository }}/issues \
+              -d "$(jq -n --arg title "$TITLE" --arg body "Auto-created sub-issue from #${{ github.event.issue.number }}" '{title: $title, body: $body}')" )
+            URL=$(echo "$RESPONSE" | jq -r '.html_url')
+            COMMENTS="$COMMENTS\n- [$TITLE]($URL)"
+          done
+          curl -s -X POST \
+            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+            -H "Accept: application/vnd.github+json" \
+            https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.issue.number }}/comments \
+            -d "$(jq -n --arg body "$COMMENTS" '{body: $body}')"
+
+  sum_time_from_sub_issues:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+    steps:
+      - name: Find parent issue link
+        run: |
+          BODY="${{ github.event.issue.body }}"
+          PARENT=$(echo "$BODY" | grep -o '#[0-9]\+' | head -n1 | tr -d '#')
+          if [ -z "$PARENT" ]; then
+            echo "No parent issue found, skipping."
+            exit 0
+          fi
+          echo "PARENT=$PARENT" >> $GITHUB_ENV
+
+      - name: Collect sub-issues time
+        if: env.PARENT != ''
+        run: |
+          echo "Fetching all sub-issues linked to parent #$PARENT..."
+          ISSUES=$(curl -s \
+            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+            -H "Accept: application/vnd.github+json" \
+            "https://api.github.com/repos/${{ github.repository }}/issues?state=all&per_page=100" \
+            | jq -r ".[] | select(.body | contains(\"#$PARENT\")) | .number")
+
+          TOTAL=0
+          for I in $ISSUES; do
+            BODY=$(curl -s \
+              -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+              -H "Accept: application/vnd.github+json" \
+              "https://api.github.com/repos/${{ github.repository }}/issues/$I" \
+              | jq -r '.body')
+            TIME=$(echo "$BODY" | grep -Eo 'time_spent: *[0-9]+(\.[0-9]+)?' | awk '{print $2}' | head -n1)
+            if [ ! -z "$TIME" ]; then
+              TOTAL=$(echo "$TOTAL + $TIME" | bc)
+            fi
+          done
+          echo "Total time from sub-issues: $TOTAL h"
+
+          COMMENT="⏱ **Updated total time:** ${TOTAL}h from sub-issues."
+          curl -s -X POST \
+            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+            -H "Accept: application/vnd.github+json" \
+            https://api.github.com/repos/${{ github.repository }}/issues/$PARENT/comments \
+            -d "$(jq -n --arg body "$COMMENT" '{body: $body}')"
