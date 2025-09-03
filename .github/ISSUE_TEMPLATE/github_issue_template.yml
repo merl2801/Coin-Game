@@ -1,0 +1,56 @@
+#github_issue_template.yml
+# Please fill out all fields and options as specified in the YAML below.
+name: "Custom Issue Template"
+description: "Describe your issue using the fields below."
+title: "[ISSUE] - <short description>"
+labels:
+  - bug
+  - enhancement
+assignees:
+  - merl2801
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Issue Description
+        Please provide a clear and concise description of the issue.
+  - type: input
+    id: environment
+    attributes:
+      label: "Environment"
+      description: "Describe the environment (OS, version, etc.) where the issue occurs."
+      placeholder: "e.g., Windows 10, Python 3.8"
+    validations:
+      required: true
+  - type: textarea
+    id: steps-to-reproduce
+    attributes:
+      label: "Steps to Reproduce"
+      description: "List the steps to reproduce the issue."
+      placeholder: "1. Go to ...\n2. Click on ...\n3. See error"
+    validations:
+      required: true
+  - type: textarea
+    id: expected-behavior
+    attributes:
+      label: "Expected Behavior"
+      description: "Describe what you expected to happen."
+      placeholder: "It should ..."
+    validations:
+      required: true
+  - type: textarea
+    id: actual-behavior
+    attributes:
+      label: "Actual Behavior"
+      description: "Describe what actually happened."
+      placeholder: "It actually ..."
+    validations:
+      required: true
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: "Additional Context"
+      description: "Add any other context or screenshots about the issue here."
+      placeholder: "Any other details..."
+    validations:
+      required: false
