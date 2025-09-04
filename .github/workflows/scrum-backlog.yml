@@ -1,3 +1,5 @@
+# IMPORTANT: Replace PROJECT_ID in the script below with your actual project ID
+# You can find your project ID by going to the project settings
 name: Scrum Backlog Automation
 
 on:
@@ -24,10 +26,35 @@ jobs:
               });
             }
 
-      - name: Move issue to New Item view (if using Projects v2)
+      - name: Add issue to "@merl2801's untitled project"
         uses: actions/github-script@v7
         with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            // Requires project automation via GraphQL or API v4
-            // Placeholder: GitHub Projects v2 automation not fully supported via REST yet
-            console.log("Move to New Item view manually or via GitHub Project automation rules.");
+            // This uses the GraphQL API to add the issue to the project
+            // Note: You'll need to replace PROJECT_ID with your actual project ID
+            // You can find your project ID by navigating to the project and looking at the URL
+            // or by using the GitHub GraphQL API Explorer
+            
+            const PROJECT_ID = "PROJ_kwDOBOSir84AO_uL"; // Replace with your actual project ID
+            const issue = context.payload.issue;
+            
+            try {
+              // First we need to get the project node ID
+              const addIssueToProject = await github.graphql(`
+                mutation($projectId:ID!, $contentId:ID!) {
+                  addProjectV2ItemById(input: {projectId: $projectId, contentId: $contentId}) {
+                    item {
+                      id
+                    }
+                  }
+                }
+              `, {
+                projectId: PROJECT_ID,
+                contentId: issue.node_id
+              });
+              
+              console.log(`Successfully added issue #${issue.number} to project`);
+            } catch (error) {
+              console.log(`Failed to add issue to project: ${error}`);
+            }
