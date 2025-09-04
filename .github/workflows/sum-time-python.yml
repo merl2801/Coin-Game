@@ -1,0 +1,34 @@
+name: Sum work time from sub-issues (Python)
+on:
+  issues:
+    types: [opened, edited, closed]
+jobs:
+  sum_time:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+      - name: Install dependencies
+        run: pip install PyGithub
+      - name: Extract parent issue id
+        id: extract
+        run: |
+          echo "ISSUE_BODY<<EOF" >> $GITHUB_ENV
+          echo "${{ github.event.issue.body }}" >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
+          echo "PARENT_ISSUE_ID=$(echo '${{ github.event.issue.body }}' | grep -Eo 'issue_id[\s\S]*?[0-9]+' | grep -Eo '[0-9]+' | head -1)" >> $GITHUB_ENV
+      - name: Run sum_time_spent.py
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO_NAME: ${{ github.repository }}
+          PARENT_ISSUE_ID: ${{ env.PARENT_ISSUE_ID }}
+        run: |
+          if [ -z "$PARENT_ISSUE_ID" ]; then
+            echo "No parent issue found, skipping."
+            exit 0
+          fi
+          python .github/scripts/sum_time_spent.py
