@@ -1,6 +1,6 @@
 name: "sample"
 description: "sample"
-title: "[sample] 題名を入力してください"
+title: "[sample]"
 labels: ["log", "work-time"]
 assignees: []
 body:
