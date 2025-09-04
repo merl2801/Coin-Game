@@ -1,11 +1,14 @@
-# IMPORTANT: This workflow requires a Personal Access Token (PAT) with project access
-# 1. Go to GitHub Settings > Developer Settings > Personal access tokens > Generate new token
+# IMPORTANT: This workflow requires a FINE-GRAINED Personal Access Token (PAT) with project access
+# 1. Go to GitHub Settings > Developer Settings > Personal access tokens > Fine-grained tokens > Generate new token
 # 2. Give it a name like "Project Automation"
-# 3. Select scopes: repo, project
-# 4. Copy the token
-# 5. Go to your repository > Settings > Secrets and variables > Actions > New repository secret
-# 6. Name: ADD_TO_PROJECT_PAT
-# 7. Value: [paste your token]
+# 3. Set expiration as needed
+# 4. For Repository access: select "Only select repositories" and choose this repository
+# 5. For Repository permissions: set "Issues" to Read & Write
+# 6. For Organization permissions: set "Projects" to Read & Write
+# 7. Copy the token
+# 8. Go to your repository > Settings > Secrets and variables > Actions > New repository secret
+# 9. Name: ADD_TO_PROJECT_PAT
+# 10. Value: [paste your token]
 #
 # LABELS:
 # - 'To Do': Default label for all new issues
@@ -24,6 +27,7 @@ permissions:
   issues: write
   repository-projects: write
   contents: read
+  id-token: write
 
 jobs:
   auto-label-and-update:
@@ -77,9 +81,31 @@ jobs:
               console.log(`Added labels: ${defaultLabels.join(', ')}`);
             }
 
-      # Use the official GitHub action for projects v2
+      # Use GitHub CLI to add issue to project
       - name: Add issue to project
-        uses: actions/add-to-project@v0.5.0
-        with:
-          project-url: https://github.com/users/merl2801/projects/1
-          github-token: ${{ secrets.ADD_TO_PROJECT_PAT }}
+        run: |
+          # Install GitHub CLI if not available
+          if ! command -v gh &> /dev/null; then
+            echo "Installing GitHub CLI..."
+            curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg
+            echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null
+            sudo apt update
+            sudo apt install gh
+          fi
+          
+          # Authenticate with GitHub CLI using the PAT
+          echo "${{ secrets.ADD_TO_PROJECT_PAT }}" | gh auth login --with-token
+          
+          # Add the issue to project with error handling
+          echo "Adding issue to project..."
+          if gh project item-add https://github.com/users/merl2801/projects/3 --owner merl2801 --id ${{ github.event.issue.node_id }}; then
+            echo "✅ Issue #${{ github.event.issue.number }} added to project successfully"
+          else
+            echo "❌ Failed to add issue to project. Trying alternative method..."
+            # Try alternative method with item URL
+            if gh project item-add https://github.com/users/merl2801/projects/3 --url ${{ github.event.issue.html_url }}; then
+              echo "✅ Issue added using alternative method"
+            else
+              echo "❌ Both methods failed. Please check your PAT permissions and project URL"
+            fi
+          fi
