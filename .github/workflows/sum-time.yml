@@ -1,0 +1,54 @@
+name: Sum work time from sub-issues
+on:
+  issues:
+    types: [opened, edited, closed]
+jobs:
+  sum_time:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check if this is a sub-issue with time_spent and issue_id
+        id: check
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const body = context.payload.issue.body;
+            const matchTime = body.match(/time_spent.*?\n.*?([\d\.]+)/);
+            const matchIssueId = body.match(/issue_id.*?\n.*?(\d+)/);
+            if (matchTime && matchIssueId) {
+              return { time: parseFloat(matchTime[1]), parent: matchIssueId[1] };
+            }
+            return null;
+      - name: Sum time_spent for all sub-issues
+        if: steps.check.outputs.result != 'null'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const parentIssue = steps.check.outputs.result.parent;
+            const { data: issues } = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              labels: 'log,work-time',
+              state: 'all',
+              per_page: 100
+            });
+            let total = 0;
+            for (const issue of issues) {
+              if (issue.body && issue.body.includes(`issue_id\n${parentIssue}`)) {
+                const match = issue.body.match(/time_spent.*?\n.*?([\d\.]+)/);
+                if (match) total += parseFloat(match[1]);
+              }
+            }
+            return total;
+      - name: Comment total time on parent issue
+        if: steps.check.outputs.result != 'null'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const parentIssue = steps.check.outputs.result.parent;
+            const total = steps.sum_time.outputs.result;
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: parentIssue,
+              body: `Tổng thời gian từ các sub-issue: ${total} giờ.`
+            });

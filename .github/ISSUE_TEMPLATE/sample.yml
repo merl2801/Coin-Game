@@ -1,0 +1,24 @@
+name: "作業時間記録"
+description: "作業時間の記録用チケットテンプレート"
+title: "[作業時間] 題名を入力してください"
+labels: ["log", "work-time"]
+assignees: []
+body:
+  - type: input
+    id: issue_id
+    attributes:
+      label: "Issue"
+      description: "関連するIssue番号を入力してください（任意）"
+      placeholder: "例：1234"
+    validations:
+      required: false
+
+  - type: input
+    id: time_spent
+    attributes:
+      label: "作業時間 (h) *"
+      description: "作業にかかった時間を入力してください (例：1.5)"
+      placeholder: "例：2.0"
+    validations:
+      required: true
+ 
