@@ -1,6 +1,6 @@
-name: "作業時間記録"
-description: "作業時間の記録用チケットテンプレート"
-title: "[作業時間] 題名を入力してください"
+name: "sample"
+description: "sample"
+title: "[sample] 題名を入力してください"
 labels: ["log", "work-time"]
 assignees: []
 body:
