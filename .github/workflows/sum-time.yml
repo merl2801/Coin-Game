@@ -12,8 +12,12 @@ jobs:
         with:
           script: |
             const body = context.payload.issue.body;
-            const matchTime = body.match(/time_spent.*?\n.*?([\d\.]+)/);
-            const matchIssueId = body.match(/issue_id.*?\n.*?(\d+)/);
+            // Tìm số sau dòng chứa 'issue_id' (bỏ qua ký tự đặc biệt, khoảng trắng)
+            const issueIdRegex = /issue_id[\s\S]*?(\d+)/i;
+            const matchIssueId = body.match(issueIdRegex);
+            // Tìm số sau dòng chứa 'time_spent' (bỏ qua ký tự đặc biệt, khoảng trắng)
+            const timeSpentRegex = /time_spent[\s\S]*?(\d+(?:\.\d+)?)/i;
+            const matchTime = body.match(timeSpentRegex);
             if (matchTime && matchIssueId) {
               return { time: parseFloat(matchTime[1]), parent: matchIssueId[1] };
             }
