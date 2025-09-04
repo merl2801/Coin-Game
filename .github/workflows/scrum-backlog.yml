@@ -36,7 +36,7 @@ jobs:
             // You can find your project ID by navigating to the project and looking at the URL
             // or by using the GitHub GraphQL API Explorer
             
-            const PROJECT_ID = "PROJ_kwDOBOSir84AO_uL"; // Replace with your actual project ID
+            const PROJECT_ID = "PVT_kwHOBbaxrc4BCJFM"; // Replace with your actual project ID
             const issue = context.payload.issue;
             
             try {
