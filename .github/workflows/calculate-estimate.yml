@@ -17,8 +17,8 @@ jobs:
           python-version: '3.11'
 
       - name: Run calculate_estimate.py
+        run: python .github/scripts/calculate_estimate.py
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           REPO: ${{ github.repository }}
           ISSUE_NUMBER: ${{ github.event.issue.number }}
-        run: python scripts/calculate_estimate.py
