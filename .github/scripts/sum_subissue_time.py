@@ -17,16 +17,18 @@ def get_issue(event_path):
         event = json.load(f)
     return event['issue']['number']
 
-def get_sub_issues(parent_issue_number):
-    # Lấy các issue có trường 'issue_id' là số của issue cha
-    r = requests.get(f"{API_URL}/issues", headers=headers, params={"state": "open", "labels": "log,work-time"})
-    sub_issues = []
-    for issue in r.json():
-        body = issue.get('body', '')
-        match = re.search(r'issue_id.*?(\d+)', body)
-        if match and match.group(1) == str(parent_issue_number):
-            sub_issues.append(issue)
-    return sub_issues
+def get_all_issues():
+    # Lấy tất cả các issue có label 'log' và 'work-time'
+    issues = []
+    page = 1
+    while True:
+        r = requests.get(f"{API_URL}/issues", headers=headers, params={"state": "all", "labels": "log,work-time", "per_page": 100, "page": page})
+        data = r.json()
+        if not data:
+            break
+        issues.extend(data)
+        page += 1
+    return issues
 
 def extract_time_spent(issue):
     match = re.search(r'time_spent.*?(\d+(\.\d+)?)', issue.get('body', ''))
@@ -40,7 +42,7 @@ def update_parent_issue(parent_issue_number, total_time):
 
 if __name__ == "__main__":
     event_path = os.getenv('GITHUB_EVENT_PATH')
-    parent_issue_number = get_issue(event_path)
-    sub_issues = get_sub_issues(parent_issue_number)
-    total_time = sum(extract_time_spent(issue) for issue in sub_issues)
-    update_parent_issue(parent_issue_number, total_time)
+    issue_number = get_issue(event_path)
+    all_issues = get_all_issues()
+    total_time = sum(extract_time_spent(issue) for issue in all_issues)
+    update_parent_issue(issue_number, total_time)
