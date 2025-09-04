@@ -1,4 +1,4 @@
-name: Sum work time from sub-issues
+name: Sum work time from sub-issues (Python)
 on:
   issues:
     types: [opened, edited, closed]
@@ -6,53 +6,29 @@ jobs:
   sum_time:
     runs-on: ubuntu-latest
     steps:
-      - name: Check if this is a sub-issue with time_spent and issue_id
-        id: check
-        uses: actions/github-script@v7
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
         with:
-          script: |
-            const body = context.payload.issue.body;
-            // Tìm số sau dòng chứa 'issue_id' (bỏ qua ký tự đặc biệt, khoảng trắng)
-            const issueIdRegex = /issue_id[\s\S]*?(\d+)/i;
-            const matchIssueId = body.match(issueIdRegex);
-            // Tìm số sau dòng chứa 'time_spent' (bỏ qua ký tự đặc biệt, khoảng trắng)
-            const timeSpentRegex = /time_spent[\s\S]*?(\d+(?:\.\d+)?)/i;
-            const matchTime = body.match(timeSpentRegex);
-            if (matchTime && matchIssueId) {
-              return { time: parseFloat(matchTime[1]), parent: matchIssueId[1] };
-            }
-            return null;
-      - name: Sum time_spent for all sub-issues
-        if: steps.check.outputs.result != 'null'
-        uses: actions/github-script@v7
-        with:
-          script: |
-            const parentIssue = steps.check.outputs.result.parent;
-            const { data: issues } = await github.rest.issues.listForRepo({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              labels: 'log,work-time',
-              state: 'all',
-              per_page: 100
-            });
-            let total = 0;
-            for (const issue of issues) {
-              if (issue.body && issue.body.includes(`issue_id\n${parentIssue}`)) {
-                const match = issue.body.match(/time_spent.*?\n.*?([\d\.]+)/);
-                if (match) total += parseFloat(match[1]);
-              }
-            }
-            return total;
-      - name: Comment total time on parent issue
-        if: steps.check.outputs.result != 'null'
-        uses: actions/github-script@v7
-        with:
-          script: |
-            const parentIssue = steps.check.outputs.result.parent;
-            const total = steps.sum_time.outputs.result;
-            await github.rest.issues.createComment({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: parentIssue,
-              body: `Tổng thời gian từ các sub-issue: ${total} giờ.`
-            });
+          python-version: '3.10'
+      - name: Install dependencies
+        run: pip install PyGithub
+      - name: Extract parent issue id
+        id: extract
+        run: |
+          echo "ISSUE_BODY<<EOF" >> $GITHUB_ENV
+          echo "${{ github.event.issue.body }}" >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
+          echo "PARENT_ISSUE_ID=$(echo '${{ github.event.issue.body }}' | grep -Eo 'issue_id[\s\S]*?[0-9]+' | grep -Eo '[0-9]+' | head -1)" >> $GITHUB_ENV
+      - name: Run sum_time_spent.py
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO_NAME: ${{ github.repository }}
+          PARENT_ISSUE_ID: ${{ env.PARENT_ISSUE_ID }}
+        run: |
+          if [ -z "$PARENT_ISSUE_ID" ]; then
+            echo "No parent issue found, skipping."
+            exit 0
+          fi
+          python .github/scripts/sum_time_spent.py
