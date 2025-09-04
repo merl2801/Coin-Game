@@ -44,9 +44,9 @@ def extract_time_spent(issue):
     return 0.0
 
 def update_parent_issue(parent_issue_number, total_time):
-    comment = f"⏱ Tổng thời gian các sub-issue: **{total_time} giờ**"
-    requests.post(f"{API_URL}/issues/{parent_issue_number}/comments", headers=headers, json={"body": comment})
-
+    comment = f"🚀 [BOT] Đã tổng hợp xong! Tổng thời gian các sub-issue: **{total_time} giờ**"
+    response = requests.post(f"{API_URL}/issues/{parent_issue_number}/comments", headers=headers, json={"body": comment})
+    print(f"[DEBUG] Comment response: {response.status_code}, {response.text}")
 def extract_issue_id(body):
     # Tìm số sau dòng chứa '### Issue'
     lines = body.splitlines()
