@@ -1,27 +1,24 @@
-name: Calculate Total Estimate (Python)
+name: Sum Work Time
 
 on:
   issues:
-    types: [opened, edited, labeled, unlabeled]
+    types: [opened, edited]
 
 jobs:
-  calculate:
+  sum:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repo
-        uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v4
 
       - name: Setup Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: '3.11'
 
-      - name: Install dependencies
-        run: pip install requests
-
-      - name: Run estimate calculator
-        run: python scripts/calculate_estimate.py
+      - name: Run calculate_estimate.py
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          ISSUE_NUMBER: ${{ github.event.issue.number }}
           REPO: ${{ github.repository }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+        run: python scripts/calculate_estimate.py
