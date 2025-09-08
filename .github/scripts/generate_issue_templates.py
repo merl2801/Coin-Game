@@ -8,7 +8,7 @@ def main():
         print("❌ Không tìm thấy thư mục .github/ISSUE_TEMPLATE")
         return
 
-    # Liệt kê tất cả các file .yml, .yaml và .md trong thư mục đó
+    # Liệt kê tất cả các file .yml và .md trong thư mục đó
     templates = (
         list(templatedir.glob("*.yml")) +
         list(templatedir.glob("*.md"))
