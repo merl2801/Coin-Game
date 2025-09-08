@@ -8,8 +8,11 @@ def main():
         print("❌ Không tìm thấy thư mục .github/ISSUE_TEMPLATE")
         return
 
-    # Liệt kê tất cả các file .yml hoặc .yaml trong thư mục đó
-    templates = list(templatedir.glob("*.yml")) + list(templatedir.glob("*.yaml"))
+    # Liệt kê tất cả các file .yml, .yaml và .md trong thư mục đó
+    templates = (
+        list(templatedir.glob("*.yml")) +
+        list(templatedir.glob("*.md"))
+    )
 
     if not templates:
         print("⚠️ Không tìm thấy file template nào trong .github/ISSUE_TEMPLATE")
