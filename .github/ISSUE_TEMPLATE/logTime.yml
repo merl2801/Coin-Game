@@ -10,6 +10,10 @@ body:
       label: "Issue"
       description: "関連するIssue番号を入力してください（任意）"
       placeholder: "例：1234"
+    onclick:
+      focus: true
+    style:
+      focusBorderColor: blue
     validations:
       required: false
 
