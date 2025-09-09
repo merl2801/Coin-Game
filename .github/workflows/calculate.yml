@@ -1,0 +1,24 @@
+name: Tính toán từ YAML
+
+on:
+  push:
+    paths:
+      - data.yml
+
+jobs:
+  calculate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install PyYAML
+        run: pip install pyyaml
+
+      - name: Run calculation
+        run: python calculate.py
