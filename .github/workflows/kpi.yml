@@ -2,12 +2,15 @@ name: KPI Calculator
 
 on:
   issues:
-    types: [opened, edited]
+    types: [opened, edited, labeled]
+  workflow_dispatch:   # Cho phép chạy thủ công từ tab Actions
+
+permissions:
+  issues: write   # Cần quyền ghi để bot comment vào issue
 
 jobs:
   calc_kpi:
     runs-on: ubuntu-latest
-    if: contains(github.event.issue.labels.*.name, 'kpi')
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
@@ -24,6 +27,12 @@ jobs:
           FEATURE=$(echo "$BODY" | grep "Số feature hoàn thành" -A1 | tail -n1 | tr -d '\r' | tr -d ' ')
           BUG=$(echo "$BODY" | grep "Số bug phát sinh" -A1 | tail -n1 | tr -d '\r' | tr -d ' ')
           OT=$(echo "$BODY" | grep "Số giờ OT" -A1 | tail -n1 | tr -d '\r' | tr -d ' ')
+
+          # Nếu giá trị rỗng, set về 0 để tránh lỗi
+          FEATURE=${FEATURE:-0}
+          BUG=${BUG:-0}
+          OT=${OT:-0}
+
           echo "feature=$FEATURE" >> $GITHUB_OUTPUT
           echo "bug=$BUG" >> $GITHUB_OUTPUT
           echo "ot=$OT" >> $GITHUB_OUTPUT
@@ -35,8 +44,10 @@ jobs:
             ${{ steps.extract.outputs.feature }} \
             ${{ steps.extract.outputs.bug }} \
             ${{ steps.extract.outputs.ot }})
+
           KPI=$(echo "$RESULT" | cut -d'|' -f1)
           RATING=$(echo "$RESULT" | cut -d'|' -f2)
+
           echo "kpi=$KPI" >> $GITHUB_OUTPUT
           echo "rating=$RATING" >> $GITHUB_OUTPUT
 
@@ -46,7 +57,7 @@ jobs:
           script: |
             const kpi = `${{ steps.calc.outputs.kpi }}`;
             const rating = `${{ steps.calc.outputs.rating }}`;
-            github.rest.issues.createComment({
+            await github.rest.issues.createComment({
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
