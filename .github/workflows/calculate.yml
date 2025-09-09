@@ -3,10 +3,12 @@ name: Tính toán từ YAML
 on:
   push:
     paths:
-      - data.yml
+      - .github/ISSUE_TEMPLATE/data.yml
+      - .github/scripts/calculate.py
+      - .github/workflows/calculate.yml
 
 jobs:
-  calculate:
+  run-calculation:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -17,8 +19,8 @@ jobs:
         with:
           python-version: '3.x'
 
-      - name: Install PyYAML
+      - name: Install dependencies
         run: pip install pyyaml
 
-      - name: Run calculation
-        run: python calculate.py
+      - name: Run calculation script
+        run: python .github/scripts/calculate.py
