@@ -8,7 +8,6 @@ body:
       value: |
         ## 本票の更新履歴
 
-        ※４版以降は、３版をコピーすること。
 
   - type: input
     id: pj_code
@@ -46,7 +45,6 @@ body:
     validations:
       required: false
 
-  # --- 2版 更新履歴 từng dòng ---
   - type: markdown
     attributes:
       value: "### ２版 更新履歴 - 項番 1"
@@ -91,56 +89,4 @@ body:
       label: 見直し内容
     validations:
       required: false
-  # --- 3版 更新履歴 từng dòng ---
-  - type: markdown
-    attributes:
-      value: "### ３版 更新履歴 - 項番 1"
-
-  - type: input
-    id: update_3rd_1_date
-    attributes:
-      label: 更新日
-    validations:
-      required: false
-
-  - type: input
-    id: update_3rd_1_approver
-    attributes:
-      label: 承認者
-    validations:
-      required: false
-
-  - type: input
-    id: update_3rd_1_updater
-    attributes:
-      label: 更新者
-    validations:
-      required: false
-
-  - type: input
-    id: update_3rd_1_item
-    attributes:
-      label: 見直し項目
-    validations:
-      required: false
-
-  - type: input
-    id: update_3rd_1_reason
-    attributes:
-      label: 見直し理由
-    validations:
-      required: false
-
-  - type: input
-    id: update_3rd_1_content
-    attributes:
-      label: 見直し内容
-    validations:
-      required: false
-
-  - type: textarea
-    id: remarks
-    attributes:
-      label: 備考
-      description: その他、特記事項があれば記入してください。
-      placeholder: 例）特になし
+  - 
