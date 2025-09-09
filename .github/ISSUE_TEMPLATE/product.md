@@ -1,8 +1,7 @@
 ---
----
-title: Bảng thông tin sản phẩm
+title: "Bảng thông tin sản phẩm"
 name: "Danh sách sản phẩm công nghệ"
-about: "Thông tin về giá và tồn kho của các mẫu laptop"
+about: "Thông tin chi tiết về giá và tồn kho của các mẫu laptop"
 products:
   - name: Laptop A
     price: 1500
@@ -15,16 +14,15 @@ products:
     stock: 10
 ---
 
----
+# {{ page.title }}
 
-# Danh sách sản phẩm
+**Người tạo:** {{ page.name }}  
+**Giới thiệu:** {{ page.about }}
+
+## Danh sách sản phẩm
 
 | Tên sản phẩm | Giá (USD) | Tồn kho |
 |--------------|-----------|---------|
-| Laptop A     | 1500      | 20      |
-| Laptop B     | 1200      | 15      |
-| Laptop C     | 1000      | 10      |
-
-
-
-hello
+{% for product in page.products %}
+| {{ product.name }} | {{ product.price }} | {{ product.stock }} |
+{% endfor %}
