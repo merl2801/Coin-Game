@@ -1,5 +1,5 @@
 name: 更新履歴テンプレート
-description: プロジェクトの更新履歴を記録するためのテンプレート
+description: プロジェクトの更新履歴を記録するためのテンプレート Yaml
 title: "[更新履歴] "
 labels: ["update-log"]
 body:
