@@ -1,50 +1,88 @@
-name: "Sample Clean Issue"
-description: "テンプレート: 本票の更新履歴 (Sample Clean Issue Template)"
-title: "[本票] <タイトルを入力>"
-labels: ["documentation", "update-history"]
+name: "本票の更新履歴"
+description: "本票の更新履歴（更新履歴表）を記入してください。"
+title: "[更新履歴] PJ名: <プロジェクト名> 事業部: <事業部名> 部門名: <部門名>"
+labels: ["update-history"]
 body:
   - type: markdown
     attributes:
       value: |
-        # 本票の更新履歴
-        以下の表に従って、更新履歴を記入してください。
-  - type: textarea
-    id: update-history
-    attributes:
-      label: 更新履歴
-      description: |
-        更新履歴をマークダウン形式のテーブルで記入してください。
-        例:
-        | 項番 | 見直し項目 | 見直し理由 | 見直し内容 | 更新日 | 承認者 | 更新者 |
-        |:---|:---|:---|:---|:---|:---|:---|
-        | 1 | 〇〇の修正 | 仕様変更 | 〇〇を△△に変更 | 2025-09-09 | 山田 | 佐藤 |
-    validations:
-      required: true
+        ## 本票の更新履歴
+
+        ※４版以降は、３版をコピーすること。
+
   - type: input
-    id: pj-code
+    id: pj_code
     attributes:
       label: PJコード
       description: プロジェクトコードを入力してください。
+      placeholder: 例）PJ-001
     validations:
       required: false
+
   - type: input
-    id: pj-name
+    id: pj_name
     attributes:
       label: PJ名
       description: プロジェクト名を入力してください。
+      placeholder: 例）コインゲーム
     validations:
-      required: false
-  - type: input
-    id: department
-    attributes:
-      label: 部門名
-      description: 部門名を入力してください。
-    validations:
-      required: false
+      required: true
+
   - type: input
     id: division
     attributes:
       label: 事業部
       description: 事業部名を入力してください。
+      placeholder: 例）AI事業部
     validations:
       required: false
+
+  - type: input
+    id: department
+    attributes:
+      label: 部門名
+      description: 部門名を入力してください。
+      placeholder: 例）開発部
+    validations:
+      required: false
+
+  - type: textarea
+    id: update_history_2nd
+    attributes:
+      label: ２版 更新履歴
+      description: ２版の更新履歴を記入してください。（項番、見直し項目、見直し理由、承認者、更新者、見直し内容など）
+      placeholder: |
+        - 項番: 1
+          見直し項目: 
+          見直し理由: 
+          承認者: 
+          更新者: 
+          見直し内容: 
+        - 項番: 2
+          ...
+    validations:
+      required: false
+
+  - type: textarea
+    id: update_history_3rd
+    attributes:
+      label: ３版 更新履歴
+      description: ３版の更新履歴を記入してください。（項番、見直し項目、見直し理由、承認者、更新者、見直し内容など）
+      placeholder: |
+        - 項番: 1
+          見直し項目: 
+          見直し理由: 
+          承認者: 
+          更新者: 
+          見直し内容: 
+        - 項番: 2
+          ...
+    validations:
+      required: false
+
+  - type: textarea
+    id: remarks
+    attributes:
+      label: 備考
+      description: その他、特記事項があれば記入してください。
+      placeholder: 例）特になし
