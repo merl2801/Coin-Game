@@ -1,11 +1,4 @@
----
-name: Bug Report
-about: Gửi báo cáo lỗi để giúp chúng tôi cải thiện
-title: "[BUG] - "
-labels: bug
-assignees: ''
+# 本票の更新履歴
 
----
-
-👉 Vui lòng sử dụng form sau để gửi báo cáo lỗi:  
-[Nhấn vào đây để mở form báo cáo lỗi](update-history.yml)
+👉 更新履歴の確認は、以下のリンクからこのページをご覧ください。
+[この「更新履歴」ページを開く](update-history.md)

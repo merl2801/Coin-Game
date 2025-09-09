@@ -1,27 +1,92 @@
-name: Bug Report 2
-description: Gửi báo cáo lỗi để giúp chúng tôi cải thiện
-title: "[BUG] - "
-labels:
-  - bug
+name: "本票の更新履歴"
+description: "本票の更新履歴（更新履歴表）を記入してください。"
+title: "[更新履歴] PJ名: <プロジェクト名> 事業部: <事業部名> 部門名: <部門名>"
+labels: ["update-history"]
 body:
   - type: markdown
     attributes:
       value: |
-        Cảm ơn bạn đã giúp chúng tôi cải thiện sản phẩm!
+        ## 本票の更新履歴
+
 
   - type: input
-    id: environment
+    id: pj_code
     attributes:
-      label: Môi trường
-      description: Hệ điều hành, trình duyệt, phiên bản phần mềm...
-      placeholder: "Ví dụ: Windows 11, Chrome 116..."
+      label: PJコード
+      description: プロジェクトコードを入力してください。
+      placeholder: 例）PJ-001
+    validations:
+      required: false
 
-  - type: textarea
-    id: steps
+  - type: input
+    id: pj_name
     attributes:
-      label: Các bước để tái hiện lỗi
-      description: Mô tả chi tiết cách bạn gặp lỗi
-      placeholder: |
-        1. Mở ứng dụng
-        2. Nhấn vào nút X
-        3. Lỗi xảy ra
+      label: PJ名
+      description: プロジェクト名を入力してください。
+      placeholder: 例）コインゲーム
+    validations:
+      required: true
+
+  - type: input
+    id: division
+    attributes:
+      label: 事業部
+      description: 事業部名を入力してください。
+      placeholder: 例）AI事業部
+    validations:
+      required: false
+
+  - type: input
+    id: department
+    attributes:
+      label: 部門名
+      description: 部門名を入力してください。
+      placeholder: 例）開発部
+    validations:
+      required: false
+
+  - type: markdown
+    attributes:
+      value: "### 版 更新履歴"
+
+  - type: input
+    id: update_2nd_1_date
+    attributes:
+      label: 更新日
+    validations:
+      required: false
+
+  - type: input
+    id: update_2nd_1_approver
+    attributes:
+      label: 承認者
+    validations:
+      required: false
+
+  - type: input
+    id: update_2nd_1_updater
+    attributes:
+      label: 更新者
+    validations:
+      required: false
+  - type: input
+    id: update_2nd_1_item
+    attributes:
+      label: 見直し項目
+    validations:
+      required: false
+
+  - type: input
+    id: update_2nd_1_reason
+    attributes:
+      label: 見直し理由
+    validations:
+      required: false
+
+  - type: input
+    id: update_2nd_1_content
+    attributes:
+      label: 見直し内容
+    validations:
+      required: false
+  - 
