@@ -1,0 +1,20 @@
+name: "Tính KPI"
+description: "Nhập dữ liệu KPI cho sprint"
+title: "[KPI] Sprint"
+labels: ["kpi"]
+body:
+  - type: input
+    id: feature_count
+    attributes:
+      label: Số feature hoàn thành
+      placeholder: "10"
+  - type: input
+    id: bug_count
+    attributes:
+      label: Số bug phát sinh
+      placeholder: "2"
+  - type: input
+    id: ot_hours
+    attributes:
+      label: Số giờ OT
+      placeholder: "5"

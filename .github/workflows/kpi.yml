@@ -1,0 +1,54 @@
+name: KPI Calculator
+
+on:
+  issues:
+    types: [opened, edited]
+
+jobs:
+  calc_kpi:
+    runs-on: ubuntu-latest
+    if: contains(github.event.issue.labels.*.name, 'kpi')
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Extract values from issue
+        id: extract
+        run: |
+          BODY="${{ github.event.issue.body }}"
+          FEATURE=$(echo "$BODY" | grep "Số feature hoàn thành" -A1 | tail -n1 | tr -d '\r' | tr -d ' ')
+          BUG=$(echo "$BODY" | grep "Số bug phát sinh" -A1 | tail -n1 | tr -d '\r' | tr -d ' ')
+          OT=$(echo "$BODY" | grep "Số giờ OT" -A1 | tail -n1 | tr -d '\r' | tr -d ' ')
+          echo "feature=$FEATURE" >> $GITHUB_OUTPUT
+          echo "bug=$BUG" >> $GITHUB_OUTPUT
+          echo "ot=$OT" >> $GITHUB_OUTPUT
+
+      - name: Run KPI calculation with Python
+        id: calc
+        run: |
+          RESULT=$(python .github/scripts/kpi_calc.py \
+            ${{ steps.extract.outputs.feature }} \
+            ${{ steps.extract.outputs.bug }} \
+            ${{ steps.extract.outputs.ot }})
+          KPI=$(echo "$RESULT" | cut -d'|' -f1)
+          RATING=$(echo "$RESULT" | cut -d'|' -f2)
+          echo "kpi=$KPI" >> $GITHUB_OUTPUT
+          echo "rating=$RATING" >> $GITHUB_OUTPUT
+
+      - name: Comment KPI result
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const kpi = `${{ steps.calc.outputs.kpi }}`;
+            const rating = `${{ steps.calc.outputs.rating }}`;
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: `📊 KPI Sprint: **${kpi}**\n\nĐánh giá: ${rating}`
+            });
