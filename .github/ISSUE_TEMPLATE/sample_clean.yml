@@ -46,37 +46,95 @@ body:
     validations:
       required: false
 
-  - type: textarea
-    id: update_history_2nd
+  # --- 2版 更新履歴 từng dòng ---
+  - type: markdown
     attributes:
-      label: ２版 更新履歴
-      description: ２版の更新履歴を記入してください。（項番、見直し項目、見直し理由、承認者、更新者、見直し内容など）
-      placeholder: |
-        - 項番: 1
-          見直し項目: 
-          見直し理由: 
-          承認者: 
-          更新者: 
-          見直し内容: 
-        - 項番: 2
-          ...
+      value: "### ２版 更新履歴 - 項番 1"
+
+  - type: input
+    id: update_2nd_1_date
+    attributes:
+      label: 更新日
     validations:
       required: false
 
-  - type: textarea
-    id: update_history_3rd
+  - type: input
+    id: update_2nd_1_approver
     attributes:
-      label: ３版 更新履歴
-      description: ３版の更新履歴を記入してください。（項番、見直し項目、見直し理由、承認者、更新者、見直し内容など）
-      placeholder: |
-        - 項番: 1
-          見直し項目: 
-          見直し理由: 
-          承認者: 
-          更新者: 
-          見直し内容: 
-        - 項番: 2
-          ...
+      label: 承認者
+    validations:
+      required: false
+
+  - type: input
+    id: update_2nd_1_updater
+    attributes:
+      label: 更新者
+    validations:
+      required: false
+  - type: input
+    id: update_2nd_1_item
+    attributes:
+      label: 見直し項目
+    validations:
+      required: false
+
+  - type: input
+    id: update_2nd_1_reason
+    attributes:
+      label: 見直し理由
+    validations:
+      required: false
+
+  - type: input
+    id: update_2nd_1_content
+    attributes:
+      label: 見直し内容
+    validations:
+      required: false
+  # --- 3版 更新履歴 từng dòng ---
+  - type: markdown
+    attributes:
+      value: "### ３版 更新履歴 - 項番 1"
+
+  - type: input
+    id: update_3rd_1_date
+    attributes:
+      label: 更新日
+    validations:
+      required: false
+
+  - type: input
+    id: update_3rd_1_approver
+    attributes:
+      label: 承認者
+    validations:
+      required: false
+
+  - type: input
+    id: update_3rd_1_updater
+    attributes:
+      label: 更新者
+    validations:
+      required: false
+
+  - type: input
+    id: update_3rd_1_item
+    attributes:
+      label: 見直し項目
+    validations:
+      required: false
+
+  - type: input
+    id: update_3rd_1_reason
+    attributes:
+      label: 見直し理由
+    validations:
+      required: false
+
+  - type: input
+    id: update_3rd_1_content
+    attributes:
+      label: 見直し内容
     validations:
       required: false
 
