@@ -1,5 +1,8 @@
 ---
+---
 title: Bảng thông tin sản phẩm
+name: "Danh sách sản phẩm công nghệ"
+about: "Thông tin về giá và tồn kho của các mẫu laptop"
 products:
   - name: Laptop A
     price: 1500
@@ -10,6 +13,8 @@ products:
   - name: Laptop C
     price: 1000
     stock: 10
+---
+
 ---
 
 # Danh sách sản phẩm
