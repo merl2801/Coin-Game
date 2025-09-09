@@ -1,0 +1,52 @@
+name: 更新履歴テンプレート
+description: プロジェクトの更新履歴を記録するためのテンプレート
+title: "[更新履歴] "
+labels: ["update-log"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## 📄 本票の更新履歴
+
+        以下の情報を入力してください。
+
+  - type: input
+    id: pj-code
+    attributes:
+      label: PJコード
+      placeholder: PJ-001
+    validations:
+      required: true
+
+  - type: input
+    id: pj-name
+    attributes:
+      label: PJ名
+      placeholder: 顧客管理システム
+
+  - type: input
+    id: department
+    attributes:
+      label: 事業部
+
+  - type: input
+    id: division
+    attributes:
+      label: 部門名
+
+  - type: textarea
+    id: update-history-v2
+    attributes:
+      label: ２版 更新履歴
+      description: 表形式で記入してください（Markdown可）
+      placeholder: |
+        | 項番 | 見直し項目 | 見直し理由 | 承認者 | 更新者 | 更新日 | 見直し内容 |
+        |------|------------|------------|--------|--------|--------|------------|
+        | 1    |            |            |        |        |        |            |
+
+  - type: textarea
+    id: update-history-v3
+    attributes:
+      label: ３版 更新履歴
+      description: 表形式で記入してください（Markdown可）
+      placeholder: 同上
