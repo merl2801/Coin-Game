@@ -1,0 +1,27 @@
+name: Bug Report
+description: Gửi báo cáo lỗi để giúp chúng tôi cải thiện
+title: "[BUG] - "
+labels:
+  - bug
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Cảm ơn bạn đã giúp chúng tôi cải thiện sản phẩm!
+
+  - type: input
+    id: environment
+    attributes:
+      label: Môi trường
+      description: Hệ điều hành, trình duyệt, phiên bản phần mềm...
+      placeholder: "Ví dụ: Windows 11, Chrome 116..."
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Các bước để tái hiện lỗi
+      description: Mô tả chi tiết cách bạn gặp lỗi
+      placeholder: |
+        1. Mở ứng dụng
+        2. Nhấn vào nút X
+        3. Lỗi xảy ra
