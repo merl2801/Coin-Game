@@ -3,9 +3,9 @@ name: Tính toán từ YAML
 on:
   push:
     paths:
-      - .github/ISSUE_TEMPLATE/data.yml
-      - .github/scripts/calculate.py
-      - .github/workflows/calculate.yml
+      - ./ISSUE_TEMPLATE/data.yml
+      - ./scripts/calculate.py
+      - ./workflows/calculate.yml
 
 jobs:
   run-calculation:
