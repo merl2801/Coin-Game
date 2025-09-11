@@ -1,14 +1,36 @@
 name: Add to Project
 on:
   issues:
-    types: [opened]
+    types: [opened, reopened, labeled]
   pull_request:
-    types: [opened]
+    types: [opened, reopened, ready_for_review]
+
 jobs:
-  add:
+  add-to-project:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/add-to-project@v0.6.1
+      - name: Add to project
+        uses: actions/add-to-project@v0.6.1
         with:
           project-url: https://github.com/users/merl2801/projects/8
           github-token: ${{ secrets.PROJECT_TOKEN }}
+          
+  # Tự động set field values khi add vào project
+  update-project-fields:
+    runs-on: ubuntu-latest
+    needs: add-to-project
+    if: github.event.action == 'opened'
+    steps:
+      - name: Set default fields for new issues
+        uses: titoportas/update-project-fields@v0.1.0
+        with:
+          project-url: https://github.com/users/merl2801/projects/8
+          github-token: ${{ secrets.PROJECT_TOKEN }}
+          item-id: ${{ github.event.issue.node_id || github.event.pull_request.node_id }}
+          # Có thể set các field mặc định
+          field-keys: |
+            Work type
+            Time (h)
+          field-values: |
+            ${{ github.event_name == 'issues' && '調査' || 'コードレビュー' }}
+            0

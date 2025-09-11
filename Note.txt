@@ -1,0 +1,52 @@
+GitHub Projects 工数登録マニュアル（改訂版）
+    1. プロジェクトにアクセスする
+        1. GitHubで対象リポジトリまたは組織を開く
+        2. 上部メニューから Projects を選択
+        3. 工数管理用の Project をクリック
+    2. 「Worklog」ビュー（Table形式）の作成方法
+        1. プロジェクト画面の上部で 「+ New view」 をクリック
+        2. 「Table」 を選択（BoardやRoadmapではなくTable）
+        3. ビュー名を 「Worklog」 と入力
+        4. 右上の 「Save changes」 を押して保存
+    次に、工数管理に必要なカスタムフィールドを追加します：
+        1. Worklogビューを開き、右端の 「+」 をクリック
+        2.「New field」 を選択し、以下を作成
+        . Parent issue（Text）
+        . Work type（Single select → 設計 / 実装 / コードレビュー / テスト / 調査 / 会議 / その他）
+        . Time (h)（Number）
+        . Date（Date）
+    👉 「誰がやったか」は既存の Assignees フィールドを利用します。
+    3. Worklogで入力する項目
+    各作業が終わったら、Worklogに新しい行を追加し、以下を入力してください。
+        項目	入力内容の例
+        Parent issue	#123 API設計、または Meeting-2025-09-10
+        Assignee	自分のGitHubアカウント
+        Work type	設計 / 実装 / コードレビュー / テスト / 調査 / 会議 / その他
+        Time (h)	作業時間（例: 1.5）
+        Date	作業した日付
+    4. 記録例
+        ケース①：Issueでの作業
+            Parent issue: #123 API設計
+            Assignee: 青木
+            Work type: 設計
+            Time (h): 2.0
+            Date: 2025-09-10
+        ケース②：複数人作業
+            山田さん: #123 API設計 / 実装 / 3h
+            佐藤さん: #123 API設計 / 調査 / 1h
+        ケース③：会議
+            Parent issue: Meeting-2025-09-10
+            Assignee: 参加者全員がそれぞれ1行ずつ登録
+            Work type: 会議
+            Time (h): 1.0
+            Date: 2025-09-10
+    5. 集計の確認方法
+        1. プロジェクト右上の Insights をクリック
+        2. 「+ New chart」でグラフを作成
+            + X軸 = Work type
+            + Y軸 = Time (h) (Sum)
+            + Group by = Assignee
+    👉 誰がどの作業に何時間使ったかをグラフで確認できます
+6. データのエクスポート
+    + プロジェクト右上のメニューから 「Export view data」 を選択すると、WorklogビューをTSV形式でダウンロードできます
+    + Excelやスプレッドシートで集計可能です
