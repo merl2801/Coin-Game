@@ -1,3 +1,4 @@
-# Instruction
-1. Trả lời súc tích.
-2. Luôn kèm ví dụ bằng Python.
+# Hướng dẫn
+- Đọc dữ liệu từ YAML.
+- Điền dữ liệu vào template báo cáo.
+- Output chỉ là Markdown hợp lệ, không có giải thích thêm.

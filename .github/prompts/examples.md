@@ -1,10 +1,8 @@
-# Báo cáo KPI
+# Ví dụ
 
-| Hạng mục | Giá trị |
-|----------|---------|
-| Doanh thu | 1000000 |
-| Chi phí   | 300000 |
-| Lợi nhuận | 700000 |
-
-## Ghi chú
-Doanh thu tăng 15% so với tháng trước.
+## Input
+```yaml
+revenue: 1000000
+cost: 300000
+profit: 700000
+note: "Doanh thu tăng 15% so với tháng trước."

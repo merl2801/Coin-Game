@@ -50,3 +50,6 @@ GitHub Projects 工数登録マニュアル（改訂版）
 6. データのエクスポート
     + プロジェクト右上のメニューから 「Export view data」 を選択すると、WorklogビューをTSV形式でダウンロードできます
     + Excelやスプレッドシートで集計可能です
+
+
+Hãy kết hợp role.md, instruction.md, examples.md và dữ liệu trong data.yaml để điền vào report_template.md. Xuất ra báo cáo cuối cùng ở dạng Markdown.
